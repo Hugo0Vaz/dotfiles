@@ -8,30 +8,17 @@ if command -v tmux \
 fi
 
 export ZSH="$HOME/.oh-my-zsh"
+export PYENV_ROOT="$HOME/.pyenv"
 
 export PATH="$PATH:/usr/local"
-
 export PATH="$PATH:$HOME/.local/bin"
-
 export PATH="$PATH:$HOME/.pyenv/bin/"
-
 export PATH="$PATH:$HOME/.cargo/bin"
-
-export PATH="$PATH:$HOME/.local/share/bob/nvim-bin/"
+export PATH="$HOME/.tmuxifier/bin/:$PATH"
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 
-export DOTFILES_DIR="$HOME/.dotfiles"
-
-export PYENV_ROOT="$HOME/.pyenv"
-
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-
-eval "$(pyenv init --path)"
-
-# Restart your shell for the changes to take effect.
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 autoload -Uz compinit && compinit
 
@@ -58,6 +45,13 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+if command -v pyenv &> /dev/null
+then
+    eval "$(pyenv init --path)"
+else
+    curl https://pyenv.run | bash
+fi
+
 if command -v /usr/bin/exa &> /dev/null
 then
     alias ls="exa --icons"
@@ -70,12 +64,11 @@ else
     alias lal="ls -al"
 fi
 
-if command -v $PATH:$HOME/.local/share/bob/nvim-bin/nvim &> /dev/null
+if command -v tmuxifier &> /dev/null
 then
-    export EDITOR='$PATH:$HOME/.local/share/bob/nvim-bin/nvim'
-elif command -v /usr/bin/nvim &> /dev/null
-then
-    export EDITOR='nvim'
+    eval "$(tmuxifier init -)"
+else
+    git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
 fi
 
 alias vi="$EDITOR"
