@@ -94,6 +94,9 @@ alias ....="cd ../../.."
 alias gs="git status"
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias ds='dotfiles status'
+alias dpull='dotfiles pull origin main'
+alias dpush='dotfiles push origin main'
 
 ex ()
 {
