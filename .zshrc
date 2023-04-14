@@ -9,6 +9,7 @@ fi
 
 export ZSH="$HOME/.oh-my-zsh"
 export PYENV_ROOT="$HOME/.pyenv"
+export TMUXIFIER_LAYOUT_PATH="$HOME/.tmux-layouts/layouts/"
 
 export PATH="$PATH:/usr/local"
 export PATH="$PATH:$HOME/.local/bin"
@@ -69,6 +70,19 @@ then
     eval "$(tmuxifier init -)"
 else
     git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
+fi
+
+if command -v /usr/bin/nvim &> /dev/null
+then
+    export EDITOR='/usr/bin/nvim'
+elif command -v /usr/bin/vim &> /dev/null
+then
+    export EDITOR='/usr/bin/vim'
+fi
+
+if [[ ! -d ~/.tmux-layouts ]]
+then
+    git clone https://github.com/Hugo0Vaz/tmux-layouts.git ~/.tmux-layouts
 fi
 
 alias vi="$EDITOR"
