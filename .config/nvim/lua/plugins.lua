@@ -53,28 +53,23 @@ return require('packer').startup(function(use)
     -- telescope
     use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/plenary.nvim'}}
 
-    -- barbar
-    -- use {'romgrk/barbar.nvim', requires = {'nvim-tree/nvim-web-devicons'}}
-
     -- fugitive.vim
     use {'tpope/vim-fugitive'}
 
-    use {
-    'numToStr/Comment.nvim',
-    config = function()
-        require('Comment').setup()
-    end
+    use {'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
     }
 
     -- folding plugin
-    use { 'pierreglaser/folding-nvim' }
+    use {'pierreglaser/folding-nvim'}
 
     -- todo plugin
-    use {
-        "folke/todo-comments.nvim",
+    use {"folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
         config = function()
-        require("todo-comments").setup {}
+            require("todo-comments").setup() {}
         end
     }
 
@@ -82,6 +77,9 @@ return require('packer').startup(function(use)
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "neovim/nvim-lspconfig",
+        config = function()
+            require("mason").setup() {}
+        end
     }
 
     -- automatically set up your configuration after cloning packer.nvim

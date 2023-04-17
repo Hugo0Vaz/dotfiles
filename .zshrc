@@ -65,12 +65,12 @@ else
     alias lal="ls -al"
 fi
 
-if command -v tmuxifier &> /dev/null
-then
-    eval "$(tmuxifier init -)"
-else
-    git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
-fi
+# if command -v tmuxifier &> /dev/null
+# then
+#     eval "$(tmuxifier init -)"
+# else
+#     git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
+# fi
 
 if command -v /usr/bin/nvim &> /dev/null
 then
@@ -78,6 +78,8 @@ then
 elif command -v /usr/bin/vim &> /dev/null
 then
     export EDITOR='/usr/bin/vim'
+else
+    export EDITOR='/usr/bin/vi'
 fi
 
 if [[ ! -d ~/.tmux-layouts ]]
@@ -94,7 +96,7 @@ alias e="$EDITOR"
 alias cls="clear"
 
 alias vimrc="$EDITOR ~/.vimrc"
-alias nvimrc="$EDITOR ~/.config/nvim/init.lua"
+alias nvimrc="$EDITOR ~/.config/nvim/"
 alias zshrc="$EDITOR ~/.zshrc"
 alias viebrc="$EDITOR ~/.config/Vieb/viebrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
@@ -192,3 +194,7 @@ attach_shell(){
     echo $conteiner
     docker exec -i -t $conteiner /bin/bash
 }
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+

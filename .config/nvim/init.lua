@@ -23,7 +23,7 @@ require "remaps"
 -- pyright LSP config
 require "pyright-config-ls"
 
--- bashls LSP config:wq
+-- bashls LSP config
 require "bashls-config-ls"
 
 -- hls LSP config
