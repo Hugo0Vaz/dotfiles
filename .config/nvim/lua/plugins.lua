@@ -69,16 +69,32 @@ return require('packer').startup(function(use)
     use {"folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
         config = function()
-            require("todo-comments").setup() {}
+            require("todo-comments").setup()
         end
     }
 
+    -- use {
+    --     "williamboman/mason.nvim",
+    --     "williamboman/mason-lspconfig.nvim",
+    --     "neovim/nvim-lspconfig",
+    --     config = function()
+    --         require("mason").setup() {}
+    --     end
+    -- }
+
     use {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig",
+        "cuducos/yaml.nvim",
+        ft = { "yaml" }, -- optional
+        requires = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-telescope/telescope.nvim" -- optional
+        },
+    }
+
+    use {
+        "FotiadisM/tabset.nvim",
         config = function()
-            require("mason").setup() {}
+            require("tabset").setup()
         end
     }
 

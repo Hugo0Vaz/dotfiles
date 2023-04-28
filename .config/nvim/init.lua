@@ -37,3 +37,9 @@ require "lualine-config"
 
 -- nvim-autopairs config
 require "autopairs-config"
+
+-- luasnip vs code snippets
+require("luasnip.loaders.from_vscode").lazy_load()
+
+-- tabset.nvim configuration for tab widths
+require "tabset-config"

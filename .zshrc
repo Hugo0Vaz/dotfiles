@@ -16,7 +16,7 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.pyenv/bin/"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$HOME/.tmuxifier/bin/:$PATH"
-
+export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -93,6 +93,8 @@ alias nv="$EDITOR"
 alias nvim="$EDITOR"
 alias e="$EDITOR"
 
+alias explorer="explorer.exe ."
+
 alias cls="clear"
 
 alias vimrc="$EDITOR ~/.vimrc"
@@ -113,6 +115,10 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ds='dotfiles status'
 alias dpull='dotfiles pull origin main'
 alias dpush='dotfiles push origin main'
+
+alias dcr='docker-compose up -d'
+alias dcb='docker-compose build'
+alias dcp='docker ps'
 
 ex ()
 {
