@@ -9,13 +9,14 @@ fi
 
 export ZSH="$HOME/.oh-my-zsh"
 export PYENV_ROOT="$HOME/.pyenv"
+export TMUXIFIER_LAYOUT_PATH="$HOME/.tmux-layouts/layouts/"
 
 export PATH="$PATH:/usr/local"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.pyenv/bin/"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$HOME/.tmuxifier/bin/:$PATH"
-
+export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -64,11 +65,26 @@ else
     alias lal="ls -al"
 fi
 
-if command -v tmuxifier &> /dev/null
+# if command -v tmuxifier &> /dev/null
+# then
+#     eval "$(tmuxifier init -)"
+# else
+#     git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
+# fi
+
+if command -v /usr/bin/nvim &> /dev/null
 then
-    eval "$(tmuxifier init -)"
+    export EDITOR='/usr/bin/nvim'
+elif command -v /usr/bin/vim &> /dev/null
+then
+    export EDITOR='/usr/bin/vim'
 else
-    git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
+    export EDITOR='/usr/bin/vi'
+fi
+
+if [[ ! -d ~/.tmux-layouts ]]
+then
+    git clone https://github.com/Hugo0Vaz/tmux-layouts.git ~/.tmux-layouts
 fi
 
 alias vi="$EDITOR"
@@ -77,10 +93,12 @@ alias nv="$EDITOR"
 alias nvim="$EDITOR"
 alias e="$EDITOR"
 
+alias explorer="explorer.exe ."
+
 alias cls="clear"
 
 alias vimrc="$EDITOR ~/.vimrc"
-alias nvimrc="$EDITOR ~/.config/nvim/init.lua"
+alias nvimrc="$EDITOR ~/.config/nvim/"
 alias zshrc="$EDITOR ~/.zshrc"
 alias viebrc="$EDITOR ~/.config/Vieb/viebrc"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
@@ -97,6 +115,10 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ds='dotfiles status'
 alias dpull='dotfiles pull origin main'
 alias dpush='dotfiles push origin main'
+
+alias dcr='docker-compose up -d'
+alias dcb='docker-compose build'
+alias dcp='docker ps'
 
 ex ()
 {
@@ -178,3 +200,7 @@ attach_shell(){
     echo $conteiner
     docker exec -i -t $conteiner /bin/bash
 }
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+

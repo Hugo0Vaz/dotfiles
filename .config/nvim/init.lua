@@ -1,5 +1,5 @@
---  _       _ _     _             
--- (_)_ __ (_) |_  | |_   _  __ _ 
+--  _       _ _     _
+-- (_)_ __ (_) |_  | |_   _  __ _
 -- | | '_ \| | __| | | | | |/ _` |
 -- | | | | | | |_ _| | |_| | (_| |
 -- |_|_| |_|_|\__(_)_|\__,_|\__,_|
@@ -12,7 +12,7 @@
 -- github: Hugo0Vaz
 
 -- packer config
-require "plugins"
+require "packages"
 
 -- global configs
 require "options"
@@ -20,20 +20,9 @@ require "options"
 -- maps and remaps
 require "remaps"
 
--- pyright LSP config
-require "pyright-config-ls"
+-- plugins config
+require "plugins"
 
--- bashls LSP config:wq
-require "bashls-config-ls"
+-- lsp | mason config
+require "lsp-config"
 
--- hls LSP config
-require "hls-config-ls"
-
--- nvim-cmp config
-require "cmp-config"
-
--- lualine config
-require "lualine-config"
-
--- nvim-autopairs config
-require "autopairs-config"
