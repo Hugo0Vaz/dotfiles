@@ -1,11 +1,11 @@
-if command -v tmux \
-    &> /dev/null \
-    && [ -n "$PS1" ] \
-    && [[ ! "$TERM" =~ screen ]] \
-    && [[ ! "$TERM" =~ tmux ]] \
-    && [ -z "$TMUX" ]; then
-  exec tmux
-fi
+# if command -v tmux \
+#     &> /dev/null \
+#     && [ -n "$PS1" ] \
+#     && [[ ! "$TERM" =~ screen ]] \
+#     && [[ ! "$TERM" =~ tmux ]] \
+#     && [ -z "$TMUX" ]; then
+#   exec tmux
+# fi
 
 export ZSH="$HOME/.oh-my-zsh"
 export PYENV_ROOT="$HOME/.pyenv"
@@ -97,11 +97,10 @@ alias explorer="explorer.exe ."
 
 alias cls="clear"
 
-alias vimrc="$EDITOR ~/.vimrc"
-alias nvimrc="$EDITOR ~/.config/nvim/"
-alias zshrc="$EDITOR ~/.zshrc"
-alias viebrc="$EDITOR ~/.config/Vieb/viebrc"
-alias tmuxrc="$EDITOR ~/.tmux.conf"
+alias vrc="$EDITOR ~/.vimrc"
+alias nrc="$EDITOR ~/.config/nvim/"
+alias zrc="$EDITOR ~/.zshrc"
+alias trc="$EDITOR ~/.tmux.conf"
 
 alias ss="source ~/.zshrc"
 alias st="tmux source-file ~/.tmux.conf"
