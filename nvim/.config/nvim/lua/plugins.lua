@@ -62,3 +62,4 @@ require('lualine').setup(lualine_config)
 require('nvim-autopairs').setup{}
 require('todo-comments').setup()
 require('Comment').setup()
+require('luasnip.loaders.from_vscode').lazy_load()

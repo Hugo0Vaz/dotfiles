@@ -9,13 +9,11 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function(use)
-    
     -- plugin manager
     use 'wbthomason/packer.nvim'
 
     -- theme
     use 'gruvbox-community/gruvbox'
-    
     -- icons for vim
     use 'ryanoasis/vim-devicons'
 
@@ -32,7 +30,7 @@ return require('packer').startup(function(use)
     }
 
     -- startpage for vim
-    use 'mhinz/vim-startify' 
+    use 'mhinz/vim-startify'
 
     -- nvim treesitter
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
@@ -48,7 +46,7 @@ return require('packer').startup(function(use)
 
     -- snippets engine
     use 'L3MON4D3/LuaSnip'
-    
+
     -- nerdtree
     use 'preservim/nerdtree'
 
@@ -65,9 +63,13 @@ return require('packer').startup(function(use)
     use 'numToStr/Comment.nvim'
 
     -- todo-comments.nvim
-    use {'folke/todo-comments.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-    }
+    use {'folke/todo-comments.nvim', requires = 'nvim-lua/plenary.nvim'}
+
+    -- pretty list for diagnostics
+    use { "folke/trouble.nvim", requires = "nvim-tree/nvim-web-devicons" }
+
+    -- luasnipe snippets
+    use "rafamadriz/friendly-snippets"
 
     -- automatically set up your configuration after cloning packer.nvim
     if packer_bootstrap then
