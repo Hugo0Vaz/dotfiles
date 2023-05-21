@@ -1,12 +1,3 @@
-# if command -v tmux \
-#     &> /dev/null \
-#     && [ -n "$PS1" ] \
-#     && [[ ! "$TERM" =~ screen ]] \
-#     && [[ ! "$TERM" =~ tmux ]] \
-#     && [ -z "$TMUX" ]; then
-#   exec tmux
-# fi
-
 export ZSH="$HOME/.oh-my-zsh"
 export PYENV_ROOT="$HOME/.pyenv"
 export TMUXIFIER_LAYOUT_PATH="$HOME/.tmux-layouts/layouts/"
@@ -65,13 +56,6 @@ else
     alias lal="ls -al"
 fi
 
-# if command -v tmuxifier &> /dev/null
-# then
-#     eval "$(tmuxifier init -)"
-# else
-#     git clone https://github.com/jimeh/tmuxifier.git ~/.tmuxifier
-# fi
-
 if command -v /usr/bin/nvim &> /dev/null
 then
     export EDITOR='/usr/bin/nvim'
@@ -82,10 +66,6 @@ else
     export EDITOR='/usr/bin/vi'
 fi
 
-if [[ ! -d ~/.tmux-layouts ]]
-then
-    git clone https://github.com/Hugo0Vaz/tmux-layouts.git ~/.tmux-layouts
-fi
 
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -109,11 +89,8 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 
 alias gs="git status"
-
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias ds='dotfiles status'
-alias dpull='dotfiles pull origin main'
-alias dpush='dotfiles push origin main'
+alias ga="git add"
+alias gc="git add . && git commit"
 
 alias dcr='docker-compose up -d'
 alias dcb='docker-compose build'
@@ -199,7 +176,4 @@ attach_shell(){
     echo $conteiner
     docker exec -i -t $conteiner /bin/bash
 }
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
