@@ -171,9 +171,22 @@ pyclean(){
 }
 
 attach_shell(){
-    conteiner=$(docker ps --format '{{.Names}}' | fzf)
-    tmux rename-window $conteiner
-    echo $conteiner
+    conteineres=$(docker ps --format '{{.Names}}')
+
+    if [[ $? -ne 0 ]]
+    then
+        echo "Não existe um instância de Docker Desktop rodando na máquina"
+        return 1
+    fi
+
+    conteiner=$(echo $conteineres | fzf)
+
+    if [[ $? -ne 0 ]]
+    then
+        echo "Não houve uma escolha válida de contêiner"
+        return 1
+    fi
+
     docker exec -i -t $conteiner /bin/bash
 }
 
