@@ -59,7 +59,15 @@ local lualine_config = {
 }
 
 require('lualine').setup(lualine_config)
-require('nvim-autopairs').setup{}
+require('nvim-autopairs').setup()
 require('todo-comments').setup()
 require('Comment').setup()
 require('luasnip.loaders.from_vscode').lazy_load()
+
+require('telescope').setup {
+    defaults = {
+        file_ignore_patterns = {
+            "node_modules"
+        }
+    }
+}

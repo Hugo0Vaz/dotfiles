@@ -12,6 +12,14 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+powershell=$(which powershell.exe)
+if [[ -z "$powershell" ]]
+then
+    export WSLENV=1
+else
+    export WSLENV=0
+fi
+
 autoload -Uz compinit && compinit
 
 ZSH_THEME="spaceship"
@@ -188,5 +196,26 @@ attach_shell(){
     fi
 
     docker exec -i -t $conteiner /bin/bash
+}
+
+tma(){
+    sessions=$(tmux ls)
+    if [[ $? -eq 1 ]]
+    then
+        echo "Não existe sessões ativas no tmux"
+        return 1
+    fi
+
+    session=$(echo $sessions | fzf)
+
+    if [[ $? -ne 0 ]]
+    then
+        echo "Não houve escolha válida de sessão do tmux"
+        return 1
+    fi
+
+    session_name=$(echo $session | sed 's/:.*//')
+
+    tmux attach-session -t $session_name
 }
 
