@@ -67,9 +67,11 @@ fi
 if command -v /usr/bin/nvim &> /dev/null
 then
     export EDITOR='/usr/bin/nvim'
+    alias vrc='$EDITOR ~/.config/nvim/init.lua'
 elif command -v /usr/bin/vim &> /dev/null
 then
     export EDITOR='/usr/bin/vim'
+    alias vrc='$EDITOR ~/.vimrc'
 else
     export EDITOR='/usr/bin/vi'
 fi
@@ -93,7 +95,6 @@ alias explorer="explorer.exe ."
 
 alias cls="clear"
 
-alias vrc="$EDITOR ~/.config/nvim/"
 alias zrc="$EDITOR ~/.zshrc"
 alias trc="$EDITOR ~/.tmux.conf"
 
