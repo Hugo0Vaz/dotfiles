@@ -25,3 +25,4 @@ require "plugins"
 
 -- lsp | mason config
 require "lsp-config"
+

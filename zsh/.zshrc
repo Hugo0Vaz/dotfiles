@@ -74,6 +74,14 @@ else
     export EDITOR='/usr/bin/vi'
 fi
 
+if command -v clip.exe &> /dev/null
+then
+    alias clip='clip.exe'
+elif command -v /usr/bin/xclip &> /dev/null
+then
+    alias clip='/usr/bin/xclip'
+else
+fi
 
 alias vi="$EDITOR"
 alias vim="$EDITOR"
@@ -85,8 +93,7 @@ alias explorer="explorer.exe ."
 
 alias cls="clear"
 
-alias vrc="$EDITOR ~/.vimrc"
-alias nrc="$EDITOR ~/.config/nvim/"
+alias vrc="$EDITOR ~/.config/nvim/"
 alias zrc="$EDITOR ~/.zshrc"
 alias trc="$EDITOR ~/.tmux.conf"
 
@@ -103,6 +110,8 @@ alias gc="git add . && git commit"
 alias dcr='docker-compose up -d'
 alias dcb='docker-compose build'
 alias dcp='docker ps'
+
+alias clip='clip.exe'
 
 ex ()
 {
