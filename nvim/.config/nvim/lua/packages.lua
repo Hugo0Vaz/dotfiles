@@ -14,8 +14,9 @@ return require('packer').startup(function(use)
 
     -- theme
     use 'gruvbox-community/gruvbox'
+
     -- icons for vim
-    use 'ryanoasis/vim-devicons'
+    -- use 'ryanoasis/vim-devicons'
 
     -- status line
     use {'hoob3rt/lualine.nvim',
