@@ -1,28 +1,10 @@
---  _       _ _     _
--- (_)_ __ (_) |_  | |_   _  __ _
--- | | '_ \| | __| | | | | |/ _` |
--- | | | | | | |_ _| | |_| | (_| |
--- |_|_| |_|_|\__(_)_|\__,_|\__,_|
---
---      My Neovim init.lua configuration file
---      Meu arquivo init.lua de configuração do Neovim
---
--- author: Hugo Martins Vaz Silva
--- e-mail: hugomartinsvaz@gmail.com
--- github: Hugo0Vaz
+-- [[ Bootstrap of `lazy.nvim` plugin manager ]]
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+end ---@diagnostic disable-next-line: undefined-field
+vim.opt.rtp:prepend(lazypath)
 
--- packer config
-require "packages"
-
--- global configs
-require "options"
-
--- maps and remaps
-require "remaps"
-
--- plugins config
-require "plugins"
-
--- lsp | mason config
-require "lsp-config"
-
+require 'nvim'
+require('lazy').setup 'plugins'
