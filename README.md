@@ -1,4 +1,4 @@
-# Meus arquivos de configuração de programas que uso diariamente
+# Meus dotfiles
 
 ## Instalação
 
@@ -13,7 +13,7 @@ Para instalar os arquivos de configuração é recomendado o uso do GNU Stow.
 2. Mudar o `$SHELL` do usuário permanentemente.
 3. Instalar o [Oh-My-Zsh](https://ohmyz.sh/#install).
 
-### TMUX
+## TMUX
 
 1. Instalar o TMUX
 2. Instalar o [TPM](https://github.com/tmux-plugins/tpm)
