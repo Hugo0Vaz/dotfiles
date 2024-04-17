@@ -1,35 +1,67 @@
+#==============================================================================#
+#       System Enviroment Exports
+#==============================================================================#
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Go enviroment variable
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin
+
+# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export PYENV_ROOT="$HOME/.pyenv"
-export TMUXIFIER_LAYOUT_PATH="$HOME/.tmux-layouts/layouts/"
 
-export PATH="$PATH:/usr/local"
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.pyenv/bin/"
-export PATH="$PATH:$HOME/.cargo/bin"
-export PATH="$HOME/.tmuxifier/bin/:$PATH"
-export PATH="$PATH:$HOME/.config/composer/vendor/bin"
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-powershell=$(which powershell.exe)
-if [[ -z "$powershell" ]]
+# Setting my default $EDITOR
+if command -v /usr/bin/nvim &> /dev/null
 then
-    export WSLENV=1
+    export EDITOR='/usr/bin/nvim'
+    alias nvrc='$EDITOR ~/.config/nvim/init.lua'
+elif command -v /usr/bin/vim &> /dev/null
+then
+    export EDITOR='/usr/bin/vim'
 else
-    export WSLENV=0
+    export EDITOR='/usr/bin/vi'
 fi
 
-autoload -Uz compinit && compinit
+# Completion Options
+# CASE_SENSITIVE="true"
+# HYPHEN_INSENSITIVE="true"
 
+# Uncomment the following line if pasting URLs and other text is messed up.
+DISABLE_MAGIC_FUNCTIONS="true"
+
+# Commands autocorrection
+ENABLE_CORRECTION="true"
+
+# Setting the theme
 ZSH_THEME="spaceship"
 
+# Dots as completion lags
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+
+#==============================================================================#
+#       Spaceship Prompt Config
+#==============================================================================#
 SPACESHIP_PROMPT_ORDER=(
     user
     host
     dir
     git
     venv
+    python
+    php
+    golang
+    lua
     exec_time
     line_sep
     exit_code
@@ -38,81 +70,47 @@ SPACESHIP_PROMPT_ORDER=(
 
 SPACESHIP_USER_SHOW=always
 SPACESHIP_EXIT_CODE_SHOW=true
-SPACESHIP_EXIT_CODE_SYMBOL='✘'
+SPACESHIP_EXIT_CODE_SYMBOL='✘ '
 SPACESHIP_CHAR_SUFFIX=' '
 
-plugins=(git)
+#==============================================================================#
+#       Oh My Zsh Configs
+#==============================================================================#
+plugins=(git zsh-autosuggestions)
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
 
 source $ZSH/oh-my-zsh.sh
 
-if command -v pyenv &> /dev/null
-then
-    eval "$(pyenv init --path)"
-else
-    curl https://pyenv.run | bash
-fi
+autoload -U compinit && compinit
 
-if command -v /usr/bin/exa &> /dev/null
-then
-    alias ls="exa --icons"
-    alias la="exa -a --icons"
-    alias ll="exa -l --icons"
-    alias lal="exa -la --icons"
-else
-    alias la="ls -a"
-    alias ll="ls -l"
-    alias lal="ls -al"
-fi
+#==============================================================================#
+#       Alises
+#==============================================================================#
+alias drx="find /home/ -type d -name dotfiles -exec /usr/bin/nvim {} \;"
+alias zshrc="nvim ~/.zshrc"
+alias trc="nvim ~/.tmux.conf"
 
-if command -v /usr/bin/nvim &> /dev/null
-then
-    export EDITOR='/usr/bin/nvim'
-    alias vrc='$EDITOR ~/.config/nvim/init.lua'
-elif command -v /usr/bin/vim &> /dev/null
-then
-    export EDITOR='/usr/bin/vim'
-    alias vrc='$EDITOR ~/.vimrc'
-else
-    export EDITOR='/usr/bin/vi'
-fi
+alias gs="git status"
 
-if command -v clip.exe &> /dev/null
-then
-    alias clip='clip.exe'
-elif command -v /usr/bin/xclip &> /dev/null
-then
-    alias clip='/usr/bin/xclip'
-else
-fi
+alias vim="nvim"
 
-alias vi="$EDITOR"
-alias vim="$EDITOR"
-alias nv="$EDITOR"
-alias nvim="$EDITOR"
-alias e="$EDITOR"
+alias sz="source ~/.zshrc"
+alias st="source ~/.tmux.conf"
+
+alias lg="lazygit"
 
 alias explorer="explorer.exe ."
 
-alias cls="clear"
+#==============================================================================#
+#       Keybinds
+#==============================================================================#
+bindkey '^y' autosuggest-accept
+bindkey '^ ' autosuggest-fetch
 
-alias zrc="$EDITOR ~/.zshrc"
-alias trc="$EDITOR ~/.tmux.conf"
-
-alias ss="source ~/.zshrc"
-alias st="tmux source-file ~/.tmux.conf"
-
-alias ...="cd ../.."
-alias ....="cd ../../.."
-
-alias gs="git status"
-alias ga="git add"
-alias gc="git add . && git commit"
-
-alias dcr='docker-compose up -d'
-alias dcb='docker-compose build'
-alias dcp='docker ps'
-
-alias clip='clip.exe'
+#==============================================================================#
+#       Functions
+#==============================================================================#
 
 ex ()
 {
@@ -136,96 +134,15 @@ ex ()
   fi
 }
 
-list_proxy(){
-    echo $ftp_proxy
-    echo $http_proxy
-    echo $https_proxy
-    echo $no_proxy
-    echo $rsync_proxy
-    echo $FTP_PROXY
-    echo $HTTP_PROXY
-    echo $HTTPS_PROXY
-    echo $NO_PROXY
-    echo $RSYNC_PROXY
-}
-
-unset_proxy(){
-    unset ftp_proxy
-    unset http_proxy
-    unset https_proxy
-    unset no_proxy
-    unset rsync_proxy
-    unset FTP_PROXY
-    unset HTTP_PROXY
-    unset HTTPS_PROXY
-    unset NO_PROXY
-    unset RSYNC_PROXY
-}
-
-set_proxy(){
-    export ftp_proxy="ftp://192.168.0.30:3128/"
-    export http_proxy="http://192.168.0.30:3128/"
-    export https_proxy="http://192.168.0.30:3128/"
-    export no_proxy="localhost,127.0.0.1,192.168.1.1,::1,*.local"
-    export rsync_proxy="rsync://192.168.0.30:3128/"
-    export FTP_PROXY="ftp://192.168.0.30:3128/"
-    export HTTP_PROXY="http://192.168.0.30:3128/"
-    export HTTPS_PROXY="http://192.168.0.30:3128/"
-    export NO_PROXY="localhost,127.0.0.1,192.168.1.1,::1,*.local"
-    export RSYNC_PROXY="rsync://192.168.0.30:3128/"
-}
 
 activate(){
-    if [ -f $PWD/.venv/bin/activate ]; then
+    if [[ -f $PWD/.venv/bin/activate ]]; then
         source $PWD/.venv/bin/activate
-        echo $(which python) >&2
+        echo $(which python3) >&2
+    elif [[ -f $PWD/venv/bin/activate ]]; then
+        source $PWD/venv/bin/activate
+        echo $(which python3) >&2
     else
         echo "não existe ambiente python" >&2
     fi
 }
-
-pyclean(){
-    find . -regex '^.*\(__pycache__\|\.py[co]\)$' -delete
-}
-
-attach_shell(){
-    conteineres=$(docker ps --format '{{.Names}}')
-
-    if [[ $? -ne 0 ]]
-    then
-        echo "Não existe um instância de Docker Desktop rodando na máquina"
-        return 1
-    fi
-
-    conteiner=$(echo $conteineres | fzf)
-
-    if [[ $? -ne 0 ]]
-    then
-        echo "Não houve uma escolha válida de contêiner"
-        return 1
-    fi
-
-    docker exec -i -t $conteiner /bin/bash
-}
-
-tma(){
-    sessions=$(tmux ls)
-    if [[ $? -eq 1 ]]
-    then
-        echo "Não existe sessões ativas no tmux"
-        return 1
-    fi
-
-    session=$(echo $sessions | fzf)
-
-    if [[ $? -ne 0 ]]
-    then
-        echo "Não houve escolha válida de sessão do tmux"
-        return 1
-    fi
-
-    session_name=$(echo $session | sed 's/:.*//')
-
-    tmux attach-session -t $session_name
-}
-
