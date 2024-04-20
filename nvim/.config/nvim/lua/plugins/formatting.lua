@@ -14,6 +14,7 @@ return {
       python = { 'autopep8' },
       javascript = { { 'prettierd', 'prettier' } },
       php = { 'pint' },
+      blade = { 'blade-formatter' },
     },
   },
 }
