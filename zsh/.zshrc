@@ -2,6 +2,7 @@
 #       System Enviroment Exports
 #==============================================================================#
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/scripts/:$PATH
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -105,8 +106,21 @@ alias explorer="explorer.exe ."
 #==============================================================================#
 #       Keybinds
 #==============================================================================#
+function zle_eval {
+    echo -en "\e[2K\r"
+    eval "$@"
+    # zle redisplay
+}
+
+function zle_projects {
+    zle_eval $HOME/.local/scripts/tmux-sessionizer.zsh
+}
+
+zle -N zle_projects;
+
 bindkey '^y' autosuggest-accept
 bindkey '^ ' autosuggest-fetch
+bindkey '^s' zle_projects
 
 #==============================================================================#
 #       Functions
