@@ -71,3 +71,11 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     require('conform').format { bufnr = args.buf }
   end,
 })
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '_SCRATCH_',
+  callback = function()
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
+  end,
+})
