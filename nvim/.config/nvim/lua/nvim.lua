@@ -56,6 +56,9 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Neo-tree
 vim.keymap.set('', '<leader>n', ':Neotree toggle<CR>', { desc = 'Opens Neotree' })
 
+-- Blame.nvim mappings
+vim.keymap.set('', '<leader>bb', ':BlameToggle window<CR>', { desc = 'Toggles Blame Window' })
+
 -- [[ Basic Autocommands ]]
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -72,10 +75,26 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufEnter', {
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufRead', 'BufNewFile' }, {
   pattern = '_SCRATCH_',
   callback = function()
     local buf = vim.api.nvim_get_current_buf()
     vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufRead', 'BufNewFile' }, {
+  pattern = '*.templ',
+  callback = function()
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_option_value('filetype', 'templ', { buf = buf })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufRead', 'BufNewFile' }, {
+  pattern = '*.blade.php',
+  callback = function()
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_set_option_value('filetype', 'html.blade', { buf = buf })
   end,
 })

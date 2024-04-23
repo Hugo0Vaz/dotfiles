@@ -10,7 +10,8 @@ export PATH=$HOME/.local/scripts/:$PATH
 # Go enviroment variable
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/go/bin
+export PATH=/usr/local/go/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -113,7 +114,7 @@ function zle_eval {
 }
 
 function zle_projects {
-    zle_eval $HOME/.local/scripts/tmux-sessionizer.zsh
+    zle_eval $HOME/.local/scripts/tmux-sessionizer.sh
 }
 
 zle -N zle_projects;

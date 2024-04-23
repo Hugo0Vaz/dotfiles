@@ -15,7 +15,8 @@ return { -- Highlight, edit, and navigate code
 
     ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'bash',
+      ensure_installed = {
+        'bash',
         'c',
         'html',
         'lua',
@@ -26,7 +27,8 @@ return { -- Highlight, edit, and navigate code
         'blade',
         'json',
         'yaml',
-        'dockerfile'
+        'dockerfile',
+        'templ',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
