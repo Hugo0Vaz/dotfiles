@@ -46,6 +46,7 @@ return { -- LSP Configuration & Plugins
 
     local servers = {
       kotlin_language_server = {},
+      tailwindcss = {},
       templ = {},
       phpactor = {},
       gopls = {},
