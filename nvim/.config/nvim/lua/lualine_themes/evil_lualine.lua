@@ -1,6 +1,3 @@
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
 local lualine = require 'lualine'
 
 -- Color table for highlights
@@ -78,20 +75,8 @@ local function ins_right(component)
   table.insert(config.sections.lualine_x, component)
 end
 
-ins_left {
-  function()
-    return '▊'
-  end,
-  color = { fg = colors.blue }, -- Sets highlighting of component
-  padding = { left = 0, right = 1 }, -- We don't need space before this
-}
-
-ins_left {
-  -- mode component
-  function()
-    return ''
-  end,
-  color = function()
+local function fn_mode_color()
+  return function()
     -- auto change color according to neovims mode
     local mode_color = {
       n = colors.red,
@@ -116,7 +101,28 @@ ins_left {
       t = colors.red,
     }
     return { fg = mode_color[vim.fn.mode()] }
+  end
+end
+
+ins_left {
+  function()
+    return '▊'
   end,
+  color = fn_mode_color(),
+  padding = { left = 0, right = 0 }, -- We don't need space before this
+}
+
+ins_left {
+  'mode',
+  color = fn_mode_color(),
+}
+
+ins_left {
+  -- mode component
+  function()
+    return ''
+  end,
+  color = fn_mode_color(),
   padding = { right = 1 },
 }
 
@@ -134,7 +140,7 @@ ins_left {
 
 ins_left { 'location' }
 
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+-- ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
 
 ins_left {
   'diagnostics',
@@ -149,11 +155,11 @@ ins_left {
 
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
-ins_left {
-  function()
-    return '%='
-  end,
-}
+-- ins_left {
+--   function()
+--     return '%='
+--   end,
+-- }
 
 ins_left {
   -- Lsp server name .
@@ -187,7 +193,7 @@ ins_right {
 ins_right {
   'fileformat',
   fmt = string.upper,
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
   color = { fg = colors.green, gui = 'bold' },
 }
 
@@ -199,7 +205,6 @@ ins_right {
 
 ins_right {
   'diff',
-  -- Is it me or the symbol for modified us really weird
   symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
   diff_color = {
     added = { fg = colors.green },
@@ -213,9 +218,8 @@ ins_right {
   function()
     return '▊'
   end,
-  color = { fg = colors.blue },
+  color = fn_mode_color(),
   padding = { left = 1 },
 }
 
--- Now don't forget to initialize lualine
 lualine.setup(config)
