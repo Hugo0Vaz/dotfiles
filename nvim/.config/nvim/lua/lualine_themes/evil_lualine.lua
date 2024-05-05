@@ -3,17 +3,17 @@ local lualine = require 'lualine'
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
-  bg       = '#202328',
-  fg       = '#bbc2cf',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
-  darkblue = '#081633',
-  green    = '#98be65',
-  orange   = '#FF8800',
-  violet   = '#a9a1e1',
-  magenta  = '#c678dd',
-  blue     = '#51afef',
-  red      = '#ec5f67',
+  bg       = '#282828',
+  fg       = '#ebdbb2',
+  yellow   = '#d79921',
+  cyan     = '#83a598',
+  darkblue = '#458588',
+  green    = '#98971a',
+  orange   = '#d65d0e',
+  violet   = '#b16286',
+  magenta  = '#d3869b',
+  blue     = '#83a598',
+  red      = '#cc241d',
 }
 
 local conditions = {
@@ -120,11 +120,20 @@ ins_left {
 ins_left {
   -- mode component
   function()
-    return ''
+    return ''
   end,
   color = fn_mode_color(),
   padding = { right = 1 },
 }
+
+-- ins_left {
+--   -- mode component
+--   function()
+--     return ''
+--   end,
+--   color = fn_mode_color(),
+--   padding = { right = 1 },
+-- }
 
 ins_left {
   -- filesize component
