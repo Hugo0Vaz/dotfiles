@@ -1,5 +1,28 @@
 local lualine = require 'lualine'
 
+-- Section A:
+-- - mode (vim mode)
+
+-- Section B:
+-- - filename
+
+-- Section C:
+-- - branch (git branch)
+-- - diff (git diff status)
+
+-- Section X:
+-- - diagnostics (diagnostics count from your preferred source)
+-- - LSP Info
+
+-- Section Y:
+-- - encoding (file encoding)
+-- - fileformat (file format)
+-- - filesize
+-- - filetype
+
+-- Section Z:
+-- - location (location in file in line:column format)
+
 local gruvbox_colors = {
   dark0_hard = '#1d2021',
   dark0 = '#282828',
@@ -76,6 +99,23 @@ local mode_colors = {
   t = colors.red, -- terminal mode: keys go to the job
 }
 
+local ugoline_theme = {
+  normal = {
+    a = {
+      fg = colors.fg,
+      bg = colors.bg,
+    },
+    b = {
+      fg = colors.fg,
+      bg = colors.bg,
+    },
+    c = {
+      fg = colors.fg,
+      bg = colors.bg,
+    },
+  },
+}
+
 local conditions = {
   buffer_not_empty = function()
     return vim.fn.empty(vim.fn.expand '%:t') ~= 1
@@ -96,7 +136,6 @@ local function fn_mode_color()
   end
 end
 
--- the main config
 local config = {
   options = {
     icons_enabled = true,
@@ -104,10 +143,8 @@ local config = {
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
     disabled_filetypes = {
-      statusline = {},
-      winbar = {},
+      statusline = { 'neo-tree' },
     },
-    ignore_focus = {},
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
@@ -132,10 +169,30 @@ local config = {
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
-  extensions = {},
 }
+
+local function ins_comp_sect(section, component)
+  if section == 'a' then
+    table.insert(config.sections.lualine_a, component)
+  elseif section == 'b' then
+    table.insert(config.sections.lualine_b, component)
+  elseif section == 'c' then
+    table.insert(config.sections.lualine_c, component)
+  elseif section == 'x' then
+    table.insert(config.sections.lualine_x, component)
+  elseif section == 'y' then
+    table.insert(config.sections.lualine_y, component)
+  elseif section == 'z' then
+    table.insert(config.sections.lualine_z, component)
+  end
+end
+
+ins_comp_sect('a', {
+  function()
+    return ''
+  end,
+  color = { fg = '#cc241d' },
+  padding = { left = 1, right = 2 },
+})
 
 lualine.setup(config)
