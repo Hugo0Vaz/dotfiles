@@ -18,7 +18,6 @@ local gruvbox_colors = {
   dark3 = '#665c54',
   dark4 = '#7c6f64',
   gray_245 = '#928374',
-  gray_244 = '#928374',
   light0_hard = '#f9f5d7',
   light0 = '#fbf1c7',
   light0_soft = '#f2e5bc',
@@ -49,64 +48,37 @@ local gruvbox_colors = {
   faded_orange = '#af3a03',
 }
 
-local colors = {
-  bg = gruvbox_colors.dark0,
-  red = gruvbox_colors.bright_red,
-  green = gruvbox_colors.neutral_green,
-  yellow = gruvbox_colors.neutral_yellow,
-  blue = gruvbox_colors.neutral_blue,
-  purple = gruvbox_colors.neutral_purple,
-  aqua = gruvbox_colors.neutral_aqua,
-  gray = gruvbox_colors.gray,
-  fg = gruvbox_colors.light1,
-  orange = gruvbox_colors.bright_orange,
-}
-
 local mode_colors = {
-  n = colors.gray, -- normal
-  i = colors.aqua, -- insert
-  v = colors.yellow, -- visual by char
-  [''] = colors.yellow, -- visual blockwise
-  V = colors.yellow, -- visual by line
-  c = colors.green, -- command-line editing
-  no = colors.red, -- operator-pending
-  s = colors.orange, -- select by character
-  S = colors.orange, -- select by line
-  [''] = colors.orange, -- select blockwise
-  ic = colors.yellow, -- insert mode completion
-  R = colors.violet, -- replace
-  Rv = colors.violet, -- virtual replace
-  cv = colors.red, -- vim ex mode
-  ce = colors.red, -- normal ex mode
-  r = colors.cyan, -- hit-enter prompt
-  rm = colors.cyan, -- the -- more -- prompt
-  ['r?'] = colors.cyan, -- A |:confirm| query of some sort
-  ['!'] = colors.red, -- shell or external command is executing
-  t = colors.red, -- terminal mode: keys go to the job
-}
-
-local ugoline_theme = {
-  normal = {
-    a = {
-      fg = gruvbox_colors.light0,
-      bg = gruvbox_colors.gray_245,
-    },
-    b = {
-      fg = colors.fg,
-      bg = colors.bg,
-    },
-    c = {
-      fg = colors.fg,
-      bg = colors.bg,
-    },
-  },
+  n = gruvbox_colors.light4, -- normal
+  i = gruvbox_colors.bright_aqua, -- insert
+  v = gruvbox_colors.faded_yellow, -- visual by char
+  [''] = gruvbox_colors.faded_yellow, -- visual blockwise
+  V = gruvbox_colors.faded_yellow, -- visual by line
+  c = gruvbox_colors.neutral_orange, -- command-line editing
+  no = gruvbox_colors.light4, -- operator-pending
+  s = gruvbox_colors.faded_green, -- select by character
+  S = gruvbox_colors.faded_yellow, -- select by line
+  [''] = gruvbox_colors.faded_yellow, -- select blockwise
+  ic = gruvbox_colors.bright_aqua, -- insert mode completion
+  R = gruvbox_colors.faded_red, -- replace
+  Rv = gruvbox_colors.bright_red, -- virtual replace
+  cv = gruvbox_colors.bright_green, -- vim ex mode
+  ce = gruvbox_colors.neutral_green, -- normal ex mode
+  r = gruvbox_colors.bright_orange, -- hit-enter prompt
+  rm = gruvbox_colors.light4, -- the -- more -- prompt
+  ['r?'] = gruvbox_colors.faded_blue, -- A |:confirm| query of some sort
+  ['!'] = gruvbox_colors.bright_yellow, -- shell or external command is executing
+  t = gruvbox_colors.neutral_green, -- terminal mode: keys go to the job
 }
 
 local conditions = {
   buffer_not_empty = function()
     return vim.fn.empty(vim.fn.expand '%:t') ~= 1
   end,
-  hide_in_width = function()
+  hide_in_width100 = function()
+    return vim.fn.winwidth(0) > 120
+  end,
+  hide_in_width80 = function()
     return vim.fn.winwidth(0) > 80
   end,
   check_git_workspace = function()
@@ -118,9 +90,23 @@ local conditions = {
 
 local function fn_mode_color()
   return function()
-    return mode_colors[vim.fn.mode()]
+    return { bg = mode_colors[vim.fn.mode()], fg = gruvbox_colors.dark0 }
   end
 end
+
+local ugoline_theme = {
+  normal = {
+    a = fn_mode_color(),
+    b = {
+      fg = gruvbox_colors.light0,
+      bg = gruvbox_colors.dark2,
+    },
+    c = {
+      fg = gruvbox_colors.light0,
+      bg = gruvbox_colors.dark0_soft,
+    },
+  },
+}
 
 local config = {
   options = {
@@ -173,33 +159,54 @@ local function insert_component_section(section, component)
   end
 end
 
--- insert_component_section(sections.lualine_a, {
---   function()
---     return '▊'
---   end,
--- })
-
 insert_component_section(sections.lualine_a, {
   'mode',
-  color = { fg = fn_mode_color(), gui = 'bold' },
+  color = fn_mode_color(),
 })
-
--- insert_component_section(sections.lualine_a, {
---   function()
---     return '󰢚'
---   end,
--- })
 
 insert_component_section(sections.lualine_b, {
   'filename',
+  file_status = true, -- Displays file status (readonly status, modified status)
+  newfile_status = false, -- Display new file status (new file means no write after created)
+  shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+  symbols = {
+    modified = '', -- Text to show when the file is modified.
+    readonly = '', -- Text to show when the file is non-modifiable or readonly.
+    unnamed = '[no name]', -- Text to show for unnamed buffers.
+    newfile = '[new]', -- Text to show for newly created file before first write
+  },
   path = 4,
   padding = {
     left = 3,
     right = 3,
   },
+  cond = conditions.hide_in_width80,
 })
 
 insert_component_section(sections.lualine_c, {
+  'branch',
+  icon = '',
+  color = { gui = 'bold' },
+  cond = conditions.hide_in_width80,
+  padding = {
+    left = 2,
+    right = 1,
+  },
+})
+
+insert_component_section(sections.lualine_c, {
+  'diff',
+  symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+  diff_color = {
+    added = { fg = gruvbox_colors.bright_green },
+    modified = { fg = gruvbox_colors.bright_orange },
+    removed = { fg = gruvbox_colors.bright_red },
+  },
+  cond = conditions.hide_in_width100,
+  padding = { left = 1, right = 1 },
+})
+
+insert_component_section(sections.lualine_x, {
   function()
     local msg = 'No Active Lsp'
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -217,63 +224,52 @@ insert_component_section(sections.lualine_c, {
   end,
   icon = ' LSP:',
   color = { fg = '#ffffff', gui = 'bold' },
+  padding = {
+    left = 1,
+    right = 1,
+  },
+  cond = conditions.hide_in_width100,
 })
 
-insert_component_section(sections.lualine_c, {
+insert_component_section(sections.lualine_x, {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
   symbols = { error = ' ', warn = ' ', info = ' ' },
   diagnostics_color = {
-    color_error = { fg = colors.red },
-    color_warn = { fg = colors.yellow },
-    color_info = { fg = colors.cyan },
+    color_error = { fg = gruvbox_colors.neutral_red },
+    color_warn = { fg = gruvbox_colors.bright_yellow },
+    color_info = { fg = gruvbox_colors.bright_blue },
   },
-  cond = conditions.hide_in_width,
-})
-
-insert_component_section(sections.lualine_x, {
-  'branch',
-  icon = '',
-  color = { fg = colors.purple, gui = 'bold' },
-})
-
-insert_component_section(sections.lualine_x, {
-  'diff',
-  symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-  diff_color = {
-    added = { fg = gruvbox_colors.faded_green },
-    modified = { fg = gruvbox_colors.faded_orange },
-    removed = { fg = gruvbox_colors.faded_red },
+  cond = conditions.hide_in_width80,
+  padding = {
+    left = 1,
+    right = 2,
   },
-  cond = conditions.hide_in_width,
 })
 
 insert_component_section(sections.lualine_z, {
   'filetype',
   colored = false,
   padding = {
-    left = 2,
+    left = 1,
     right = 1,
   },
+  cond = conditions.hide_in_width100,
 })
 
 insert_component_section(sections.lualine_z, {
   'fileformat',
   icons_enabled = false,
+  cond = conditions.hide_in_width100,
 })
 
 insert_component_section(sections.lualine_z, {
   'encoding',
+  cond = conditions.hide_in_width100,
 })
 
 insert_component_section(sections.lualine_z, {
   'location',
 })
-
--- insert_component_section(sections.lualine_z, {
---   function()
---     return '▊'
---   end,
--- })
 
 lualine.setup(config)
