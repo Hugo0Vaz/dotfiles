@@ -1,27 +1,13 @@
 local lualine = require 'lualine'
 
--- Section A:
--- - mode (vim mode)
-
--- Section B:
--- - filename
-
--- Section C:
--- - branch (git branch)
--- - diff (git diff status)
-
--- Section X:
--- - diagnostics (diagnostics count from your preferred source)
--- - LSP Info
-
--- Section Y:
--- - encoding (file encoding)
--- - fileformat (file format)
--- - filesize
--- - filetype
-
--- Section Z:
--- - location (location in file in line:column format)
+local sections = {
+  lualine_a = 'a',
+  lualine_b = 'b',
+  lualine_c = 'c',
+  lualine_x = 'x',
+  lualine_y = 'y',
+  lualine_z = 'z',
+}
 
 local gruvbox_colors = {
   dark0_hard = '#1d2021',
@@ -64,25 +50,25 @@ local gruvbox_colors = {
 }
 
 local colors = {
-  bg = '',
-  red = '',
-  green = '',
-  yellow = '',
-  blue = '',
-  purple = '',
-  aqua = '',
-  gray = '',
-  fg = '',
-  orange = '',
+  bg = gruvbox_colors.dark0,
+  red = gruvbox_colors.bright_red,
+  green = gruvbox_colors.neutral_green,
+  yellow = gruvbox_colors.neutral_yellow,
+  blue = gruvbox_colors.neutral_blue,
+  purple = gruvbox_colors.neutral_purple,
+  aqua = gruvbox_colors.neutral_aqua,
+  gray = gruvbox_colors.gray,
+  fg = gruvbox_colors.light1,
+  orange = gruvbox_colors.bright_orange,
 }
 
 local mode_colors = {
-  n = colors.red, -- normal
-  i = colors.green, -- insert
-  v = colors.blue, -- visual by char
-  [''] = colors.blue, -- visual blockwise
-  V = colors.blue, -- visual by line
-  c = colors.magenta, -- command-line editing
+  n = colors.gray, -- normal
+  i = colors.aqua, -- insert
+  v = colors.yellow, -- visual by char
+  [''] = colors.yellow, -- visual blockwise
+  V = colors.yellow, -- visual by line
+  c = colors.green, -- command-line editing
   no = colors.red, -- operator-pending
   s = colors.orange, -- select by character
   S = colors.orange, -- select by line
@@ -102,8 +88,8 @@ local mode_colors = {
 local ugoline_theme = {
   normal = {
     a = {
-      fg = colors.fg,
-      bg = colors.bg,
+      fg = gruvbox_colors.light0,
+      bg = gruvbox_colors.gray_245,
     },
     b = {
       fg = colors.fg,
@@ -132,14 +118,14 @@ local conditions = {
 
 local function fn_mode_color()
   return function()
-    return { fg = mode_colors[vim.fn.mode()] }
+    return mode_colors[vim.fn.mode()]
   end
 end
 
 local config = {
   options = {
     icons_enabled = true,
-    theme = 'gruvbox_dark',
+    theme = ugoline_theme,
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
     disabled_filetypes = {
@@ -154,24 +140,24 @@ local config = {
     },
   },
   sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { 'branch', 'diff', 'diagnostics' },
-    lualine_c = { 'filename' },
-    lualine_x = { 'encoding', 'fileformat', 'filetype' },
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
     lualine_y = {},
-    lualine_z = { 'location' },
+    lualine_z = {},
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = { 'filename' },
-    lualine_x = { 'location' },
+    lualine_c = {},
+    lualine_x = {},
     lualine_y = {},
     lualine_z = {},
   },
 }
 
-local function ins_comp_sect(section, component)
+local function insert_component_section(section, component)
   if section == 'a' then
     table.insert(config.sections.lualine_a, component)
   elseif section == 'b' then
@@ -187,12 +173,107 @@ local function ins_comp_sect(section, component)
   end
 end
 
-ins_comp_sect('a', {
-  function()
-    return ''
-  end,
-  color = { fg = '#cc241d' },
-  padding = { left = 1, right = 2 },
+-- insert_component_section(sections.lualine_a, {
+--   function()
+--     return '▊'
+--   end,
+-- })
+
+insert_component_section(sections.lualine_a, {
+  'mode',
+  color = { fg = fn_mode_color(), gui = 'bold' },
 })
+
+-- insert_component_section(sections.lualine_a, {
+--   function()
+--     return '󰢚'
+--   end,
+-- })
+
+insert_component_section(sections.lualine_b, {
+  'filename',
+  path = 4,
+  padding = {
+    left = 3,
+    right = 3,
+  },
+})
+
+insert_component_section(sections.lualine_c, {
+  function()
+    local msg = 'No Active Lsp'
+    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local clients = vim.lsp.get_active_clients()
+    if next(clients) == nil then
+      return msg
+    end
+    for _, client in ipairs(clients) do
+      local filetypes = client.config.filetypes
+      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+        return client.name
+      end
+    end
+    return msg
+  end,
+  icon = ' LSP:',
+  color = { fg = '#ffffff', gui = 'bold' },
+})
+
+insert_component_section(sections.lualine_c, {
+  'diagnostics',
+  sources = { 'nvim_diagnostic' },
+  symbols = { error = ' ', warn = ' ', info = ' ' },
+  diagnostics_color = {
+    color_error = { fg = colors.red },
+    color_warn = { fg = colors.yellow },
+    color_info = { fg = colors.cyan },
+  },
+  cond = conditions.hide_in_width,
+})
+
+insert_component_section(sections.lualine_x, {
+  'branch',
+  icon = '',
+  color = { fg = colors.purple, gui = 'bold' },
+})
+
+insert_component_section(sections.lualine_x, {
+  'diff',
+  symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+  diff_color = {
+    added = { fg = gruvbox_colors.faded_green },
+    modified = { fg = gruvbox_colors.faded_orange },
+    removed = { fg = gruvbox_colors.faded_red },
+  },
+  cond = conditions.hide_in_width,
+})
+
+insert_component_section(sections.lualine_z, {
+  'filetype',
+  colored = false,
+  padding = {
+    left = 2,
+    right = 1,
+  },
+})
+
+insert_component_section(sections.lualine_z, {
+  'fileformat',
+  icons_enabled = false,
+})
+
+insert_component_section(sections.lualine_z, {
+  'encoding',
+})
+
+insert_component_section(sections.lualine_z, {
+  'location',
+})
+
+-- insert_component_section(sections.lualine_z, {
+--   function()
+--     return '▊'
+--   end,
+-- })
 
 lualine.setup(config)

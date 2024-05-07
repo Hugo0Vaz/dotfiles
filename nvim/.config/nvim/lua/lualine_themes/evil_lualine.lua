@@ -1,5 +1,13 @@
 local lualine = require 'lualine'
 
+-- ins_comp_sect('a', {
+--   function()
+--     return ''
+--   end,
+--   color = { fg = '#cc241d' },
+--   padding = { left = 1, right = 2 },
+-- })
+
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
