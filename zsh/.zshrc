@@ -16,6 +16,9 @@ export PATH=$HOME/go/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Trick for TMUX
+# export TERM=screen-256color
+export TERM=xterm-256color
 
 # Setting my default $EDITOR
 if command -v /usr/bin/nvim &> /dev/null
@@ -104,24 +107,26 @@ alias lg="lazygit"
 
 alias explorer="explorer.exe ."
 
+alias tmux="TERM=xterm-256color tmux"
+
 #==============================================================================#
 #       Keybinds
 #==============================================================================#
-function zle_eval {
-    echo -en "\e[2K\r"
-    eval "$@"
-    # zle redisplay
-}
-
-function zle_projects {
-    zle_eval $HOME/.local/scripts/tmux-sessionizer.sh
-}
-
-zle -N zle_projects;
+# function zle_eval {
+#     echo -en "\e[2K\r"
+#     eval "$@"
+#     # zle redisplay
+# }
+#
+# function zle_projects {
+#     zle_eval $HOME/.local/scripts/tmux-sessionizer.sh
+# }
+#
+# zle -N zle_projects;
 
 bindkey '^y' autosuggest-accept
 bindkey '^ ' autosuggest-fetch
-bindkey '^s' zle_projects
+# bindkey '^s' zle_projects
 
 #==============================================================================#
 #       Functions
@@ -129,7 +134,7 @@ bindkey '^s' zle_projects
 
 ex ()
 {
-  if [ -f $1 ] ; then
+    if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2)   tar xjf $1   ;;
       *.tar.gz)    tar xzf $1   ;;
@@ -144,13 +149,14 @@ ex ()
       *.7z)        7z x $1      ;;
       *)           echo "'$1' cannot be extracted via ex()" ;;
     esac
-  else
+    else
     echo "'$1' is not a valid file"
-  fi
+    fi
 }
 
 
-activate(){
+activate()
+{
     if [[ -f $PWD/.venv/bin/activate ]]; then
         source $PWD/.venv/bin/activate
         echo $(which python3) >&2
