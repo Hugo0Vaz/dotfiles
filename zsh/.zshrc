@@ -81,7 +81,7 @@ SPACESHIP_CHAR_SUFFIX=' '
 #==============================================================================#
 #       Oh My Zsh Configs
 #==============================================================================#
-plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions ssh-agent)
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff"
 
