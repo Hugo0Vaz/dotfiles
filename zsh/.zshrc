@@ -53,6 +53,27 @@ COMPLETION_WAITING_DOTS="true"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+#==============================================================================#
+#       FZF Command-line binds
+#==============================================================================#
+
+if [[ ! "$PATH" == */home/hugo/.fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}/home/hugo/.fzf/bin"
+fi
+
+source <(fzf --zsh)
+
+export FZF_CTRL_T_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
 
 #==============================================================================#
 #       Spaceship Prompt Config
@@ -167,3 +188,4 @@ activate()
         echo "não existe ambiente python" >&2
     fi
 }
+
