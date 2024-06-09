@@ -62,12 +62,12 @@ if [[ ! "$PATH" == */home/hugo/.fzf/bin* ]]; then
 fi
 
 source <(fzf --zsh)
-
-export FZF_CTRL_T_OPTS="
-  --walker-skip .git,node_modules,target
-  --preview 'bat -n --color=always {}'
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-
+bindkey '^r' fzf-history-widget
+# export FZF_CTRL_T_OPTS="
+#   --walker-skip .git,node_modules,target
+#   --preview 'bat -n --color=always {}'
+#   --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+#
 export FZF_CTRL_R_OPTS="
   --preview 'echo {}' --preview-window up:3:hidden:wrap
   --bind 'ctrl-/:toggle-preview'
@@ -130,25 +130,15 @@ alias explorer="explorer.exe ."
 
 alias tmux="TERM=xterm-256color tmux"
 
+alias start="tmux new -s start"
+
 #==============================================================================#
 #       Keybinds
 #==============================================================================#
-# function zle_eval {
-#     echo -en "\e[2K\r"
-#     eval "$@"
-#     # zle redisplay
-# }
-#
-# function zle_projects {
-#     zle_eval $HOME/.local/scripts/tmux-sessionizer.sh
-# }
-#
-# zle -N zle_projects;
-
 bindkey '^y' autosuggest-accept
 bindkey '^ ' autosuggest-fetch
-# bindkey '^s' zle_projects
-
+bindkey '^r' fzf-history-widget
+1
 #==============================================================================#
 #       Functions
 #==============================================================================#
@@ -188,4 +178,3 @@ activate()
         echo "não existe ambiente python" >&2
     fi
 }
-
