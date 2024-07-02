@@ -1,10 +1,7 @@
-
-{ config, pkgs, options, ... }:
+{ config, pkgs, options, inputs, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
+  imports = [ ./hardware-configuration.nix inputs.home-manager.nixosModules.default ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -13,7 +10,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.networkmanager.enable = true; 
+  networking.networkmanager.enable = true;
   networking.timeServers = options.networking.timeServers.default
     ++ [ "a.ntp.br" ];
 
@@ -65,10 +62,12 @@
     isNormalUser = true;
     description = "Hugo Martins Vaz Silva";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs;
-      [
-        kdePackages.kate
-      ];
+    packages = with pkgs; [ kdePackages.kate ];
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = { "hugomvs" = import ./home.nix; };
   };
 
   programs.firefox.enable = true;
