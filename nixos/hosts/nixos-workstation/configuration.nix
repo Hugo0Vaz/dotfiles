@@ -1,12 +1,13 @@
 { config, pkgs, options, inputs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix inputs.home-manager.nixosModules.default ];
+  imports =
+    [ ./hardware-configuration.nix inputs.home-manager.nixosModules.default ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos-workstations";
+  networking.hostName = "nixos-workstation";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -69,6 +70,13 @@
     extraSpecialArgs = { inherit inputs; };
     users = { "hugomvs" = import ./home.nix; };
   };
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs;
+    [
+      # Add any missing dynamic libraries for unpackaged 
+      # programs here, NOT in environment.systemPackages
+    ];
 
   programs.firefox.enable = true;
 
