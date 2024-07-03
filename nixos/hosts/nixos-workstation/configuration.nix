@@ -111,7 +111,7 @@
 
   imports = [
     ./hardware-configuration.nix
-    ./nvidia.nix
+    ./../../modules/nixos/nvidia.nix
     inputs.home-manager.nixosModules.default
   ];
 }
