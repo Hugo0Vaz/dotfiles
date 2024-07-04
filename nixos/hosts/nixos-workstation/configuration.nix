@@ -107,6 +107,8 @@
     fzf
     fzf-zsh
     nixfmt-classic
+    vscodium
+    rclone
   ];
 
   imports = [
