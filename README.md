@@ -1,19 +1,16 @@
-# Meus dotfiles
+# Installation
 
-## Instalação
+## NixOS and Home-Manager Install
 
-Para instalar os arquivos de configuração é recomendado o uso do GNU Stow.
+To install the dotfiles using on NixOS or Home-Manager follow these [instructions](../README.md)
 
-1. Clonar o repositório para uma pasta do sistema.
-2. Ir até o diretório do repositório e executar `stow --target=$HOME <nome do prorama>`.
+## GNU Stow Install
 
-## ZSH
+If you're not using NixOS or HomeManager it's recommended to use Gnu Stow.
 
-1. Instalar o ZSH
-2. Mudar o `$SHELL` do usuário permanentemente.
-3. Instalar o [Oh-My-Zsh](https://ohmyz.sh/#install).
+1. Clone de repo to anywhere in your machine.
+2. `cd` into the directory `dotfiles` and run `stow --target=$HOME <program_dir_name>`.
 
-## TMUX
+# TODO
 
-1. Instalar o TMUX
-2. Instalar o [TPM](https://github.com/tmux-plugins/tpm)
+- fix tmux errors
